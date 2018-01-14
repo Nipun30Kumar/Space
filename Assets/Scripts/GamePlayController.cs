@@ -16,6 +16,7 @@ public class GamePlayController : MonoBehaviour {
     public float startWait;
     public float waveWait;
     public Vector3 curveWaveSpawnPosition;
+    public EditorWaypoints waypoints;
 
     private int score;
     public Text scoreText;
@@ -33,26 +34,29 @@ public class GamePlayController : MonoBehaviour {
     {
         while (true)
         {
-
             yield return new WaitForSeconds(startWait);
             for (int i = 0; i <= waveCount; i++)
             {  
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
                 Quaternion spawnRotation = Quaternion.identity;
-                if(waveSwitchCount <= 4)
+                if(waveSwitchCount <= 2)
                 {
                     // Spawning of waves from top of the screen
-                    Instantiate(hazard, spawnPosition, spawnRotation);
-                    waveSwitchCount++;
+                    Debug.Log("Normal spawning of waves.");
+                    Instantiate(hazard, spawnPosition, spawnRotation);                    
                 }
                 else
                 {
-                    // Curve spawning of waves from either side of the screen
-                    waveSwitchCount = 0;
+                    // Curve spawning of waves from either side of the screen    
+                    Debug.Log("Curve spawning of waves.");                
                     Instantiate(hazard, curveWaveSpawnPosition, Quaternion.identity);
+                    hazard.GetComponent<AsteroidMovement>().pathToFollow = waypoints;
                 }
                 yield return new WaitForSeconds(spawnWait);
             }
+            waveSwitchCount++;
+            if (waveSwitchCount > 3) { waveSwitchCount = 0; }
+            Debug.Log("WaveSwitchCount : " + waveSwitchCount);
             yield return new WaitForSeconds(waveWait);
         }
     }
