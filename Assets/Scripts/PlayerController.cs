@@ -37,13 +37,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     void FixedUpdate() {
-    //    float moveHorizontal = Input.GetAxis("Horizontal");
-    //    float moveVertical = Input.GetAxis("Vertical");
+        #if UNITY_EDITOR
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
 
-    //    Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-    //    GetComponent<Rigidbody>().velocity = movement * speed;
-
-    //    //Vector3 playerPosition = GetComponent<Rigidbody>().position;
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        GetComponent<Rigidbody>().velocity = movement * speed;
+        #endif
+        //    //Vector3 playerPosition = GetComponent<Rigidbody>().position;
         GetComponent<Rigidbody>().position = new Vector3
             (
             Mathf.Clamp(GetComponent<Rigidbody>().position.x, boundary.xMin, boundary.xMax),

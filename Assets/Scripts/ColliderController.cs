@@ -34,6 +34,7 @@ public class ColliderController : MonoBehaviour {
         Instantiate(shootPFX, other.transform.position, other.transform.rotation);
         if(other.tag == "Player")
         {
+            Debug.Log("Game Over !!!");
             Instantiate(collidePFX, other.transform.position, other.transform.rotation);
             gameController = gameControllerObject.GetComponent<GamePlayController>();
             gameController.OnPlayerDestroy();
